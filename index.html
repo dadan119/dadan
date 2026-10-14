@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071426">
+  <meta name="description" content="LifeOS — dashboard pribadi futuristik untuk mengatur tugas, catatan, fokus, dan waktu.">
+  <title>LifeOS — Personal Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <div class="app-shell">
+    <aside class="sidebar glass">
+      <a class="brand" href="#" aria-label="LifeOS beranda">
+        <span class="brand-mark"><span></span><span></span><span></span><span></span></span>
+        <span>life<span class="brand-accent">os</span><small>PERSONAL SYSTEM</small></span>
+      </a>
+      <div class="sidebar-label">WORKSPACE</div>
+      <nav class="nav-menu" aria-label="Navigasi utama">
+        <button class="nav-link active" data-target="overview"><span class="nav-icon">◈</span> Overview <span class="nav-dot"></span></button>
+        <button class="nav-link" data-target="tasks"><span class="nav-icon">✓</span> Tasks <span class="nav-count" id="navTaskCount">0</span></button>
+        <button class="nav-link" data-target="notes"><span class="nav-icon">▤</span> Quick notes</button>
+        <button class="nav-link" data-target="focus"><span class="nav-icon">◷</span> Focus room</button>
+      </nav>
+      <div class="sidebar-label tools-label">QUICK TOOLS</div>
+      <div class="tool-tile"><span class="tool-symbol">⌘</span><div><strong>Command center</strong><small>Stay in control</small></div><span class="live-pulse"></span></div>
+      <div class="sidebar-bottom">
+        <div class="system-status"><span class="status-led"></span><span>All systems operational</span></div>
+        <div class="profile">
+          <div class="avatar">L</div><div class="profile-copy"><strong>My Workspace</strong><small>Personal account</small></div>
+          <button id="resetButton" class="icon-button tiny" title="Reset data" aria-label="Reset data">↻</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="mobile-brand"><span class="brand-mark mini"><span></span><span></span><span></span><span></span></span> life<span class="brand-accent">os</span></div>
+        <div class="breadcrumb"><span>Workspace</span><b>/</b><strong id="currentPageLabel">Overview</strong></div>
+        <div class="top-actions">
+          <div class="date-chip"><span class="tiny-orb"></span><span id="topDate">MON, JAN 01</span></div>
+          <button class="icon-button" id="themeButton" title="Ganti tampilan" aria-label="Ganti tampilan">☼</button>
+          <button class="avatar top-avatar" id="greetingButton" title="Sapa saya" aria-label="Tampilkan sapaan">L</button>
+        </div>
+      </header>
+
+      <section id="overview" class="page-section active-section">
+        <div class="welcome-row reveal">
+          <div>
+            <div class="eyebrow"><span class="eyebrow-line"></span> YOUR PERSONAL COMMAND CENTER</div>
+            <h1 id="greetingTitle">Good evening<span class="title-period">.</span></h1>
+            <p class="subtitle">Satu ruang untuk merapikan pikiran dan menggerakkan harimu.</p>
+          </div>
+          <button class="primary-button" id="addTaskTop"><span>＋</span> Tambah tugas</button>
+        </div>
+
+        <div class="hero-panel glass reveal">
+          <div class="hero-grid"></div><div class="hero-glow"></div>
+          <div class="hero-copy">
+            <div class="hero-kicker"><span class="sparkle">✳</span> DAILY PULSE <span class="hero-line"></span> <span id="heroDate">TODAY</span></div>
+            <h2>Make today<br><span>count.</span></h2>
+            <p>Progress kecil yang konsisten menciptakan perubahan besar.</p>
+            <button class="hero-button" id="focusShortcut">Mulai sesi fokus <span>↗</span></button>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="orbit orbit-outer"></div><div class="orbit orbit-inner"></div>
+            <div class="planet"><div class="planet-shine"></div></div>
+            <div class="orbit-node node-a"></div><div class="orbit-node node-b"></div><div class="orbit-node node-c"></div>
+            <div class="visual-label label-top">FOCUS / 01</div><div class="visual-label label-bottom">SYSTEM ONLINE <span></span></div>
+          </div>
+          <div class="hero-index">L<span>—</span>01</div>
+        </div>
+
+        <div class="section-heading reveal"><div><span class="section-kicker">AT A GLANCE</span><h2>Today's overview</h2></div><span class="updated-label"><span></span> LIVE OVERVIEW</span></div>
+        <div class="stats-grid reveal">
+          <article class="stat-card glass">
+            <div class="stat-top"><span class="stat-icon cyan">✓</span><span class="stat-label">TASKS COMPLETED</span><span class="stat-trend">↗</span></div>
+            <div class="stat-value"><strong id="completedStat">0</strong><span id="totalStat">/ 0 tasks</span></div>
+            <div class="progress-track"><span id="taskProgressBar" style="width:0%"></span></div><div class="stat-foot"><span id="taskProgressText">Mulai dari satu tugas</span><span id="taskPercent">0%</span></div>
+          </article>
+          <article class="stat-card glass">
+            <div class="stat-top"><span class="stat-icon violet">◷</span><span class="stat-label">FOCUS SESSIONS</span><span class="stat-trend">✳</span></div>
+            <div class="stat-value"><strong id="focusStat">0</strong><span>sessions today</span></div>
+            <div class="mini-bars" aria-label="Grafik fokus mingguan"><i style="height:28%"></i><i style="height:50%"></i><i style="height:38%"></i><i style="height:72%"></i><i style="height:46%"></i><i style="height:86%"></i><i class="bar-today" style="height:35%"></i></div><div class="stat-foot"><span>Consistency over intensity</span><span>7 DAYS</span></div>
+          </article>
+          <article class="stat-card glass">
+            <div class="stat-top"><span class="stat-icon blue">✎</span><span class="stat-label">QUICK NOTES</span><span class="stat-trend">↗</span></div>
+            <div class="stat-value"><strong id="notesStat">0</strong><span>notes saved</span></div>
+            <div class="note-preview"><span class="note-preview-dot"></span><span id="latestNotePreview">Ide bagus dimulai dari catatan kecil.</span></div><div class="stat-foot"><span>Capture your thoughts</span><button class="text-button" data-go="notes">Buka notes ↗</button></div>
+          </article>
+        </div>
+
+        <div class="content-grid reveal">
+          <section class="panel glass task-panel" id="overviewTaskPanel">
+            <div class="panel-heading"><div><span class="section-kicker">STAY ON TRACK</span><h3>Priority tasks</h3></div><button class="text-button" data-go="tasks">Lihat semua <span>↗</span></button></div>
+            <div id="overviewTaskList" class="task-list"></div>
+            <button class="add-inline" id="addTaskInline"><span>＋</span> Tambahkan tugas baru</button>
+          </section>
+          <section class="panel glass calendar-panel">
+            <div class="panel-heading"><div><span class="section-kicker">YOUR TIMELINE</span><h3>Calendar</h3></div><div class="calendar-controls"><button id="prevMonth" class="icon-button tiny" aria-label="Bulan sebelumnya">‹</button><button id="nextMonth" class="icon-button tiny" aria-label="Bulan berikutnya">›</button></div></div>
+            <div class="calendar-month" id="calendarMonth">October 2026</div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+            <div class="calendar-legend"><span><i></i> Today</span><span><i class="legend-task"></i> Has tasks</span></div>
+          </section>
+        </div>
+        <footer class="footer"><span>© 2026 LIFEOS INTERFACE</span><span>DESIGNED FOR YOUR NEXT CHAPTER <b>✳</b></span></footer>
+      </section>
+
+      <section id="tasks" class="page-section">
+        <div class="page-intro reveal"><div class="eyebrow"><span class="eyebrow-line"></span> GET THINGS DONE</div><h1>Task manager<span class="title-period">.</span></h1><p class="subtitle">Pecah tujuan besar menjadi langkah yang bisa kamu selesaikan.</p></div>
+        <div class="task-toolbar glass reveal"><div class="search-wrap"><span>⌕</span><input id="taskSearch" type="search" placeholder="Cari tugas..." aria-label="Cari tugas"></div><select id="taskFilter" aria-label="Filter tugas"><option value="all">Semua tugas</option><option value="active">Belum selesai</option><option value="completed">Selesai</option></select><button class="primary-button" id="addTaskManager"><span>＋</span> Tugas baru</button></div>
+        <div class="task-manager-layout reveal"><div class="panel glass manager-main"><div class="panel-heading"><div><span class="section-kicker">YOUR ACTION LIST</span><h3>All tasks <span class="count-pill" id="managerTaskCount">0</span></h3></div></div><div id="fullTaskList" class="task-list full-task-list"></div></div>
+          <aside class="panel glass task-side"><span class="section-kicker">PROGRESS TRACKER</span><h3>Keep moving.</h3><div class="big-progress" id="bigProgressRing"><div><strong id="bigProgressValue">0%</strong><small>COMPLETED</small></div></div><div class="progress-breakdown"><div><span><i class="legend-task"></i> Active</span><strong id="activeBreakdown">0</strong></div><div><span><i class="legend-done"></i> Completed</span><strong id="doneBreakdown">0</strong></div></div><div class="tip-box"><span>✳</span><p><strong>Small steps matter.</strong><br>Fokus pada satu hal dalam satu waktu.</p></div></aside></div>
+        <footer class="footer"><span>© 2026 LIFEOS INTERFACE</span><span>ONE STEP AT A TIME <b>✳</b></span></footer>
+      </section>
+
+      <section id="notes" class="page-section">
+        <div class="page-intro reveal"><div class="eyebrow"><span class="eyebrow-line"></span> CAPTURE THE MOMENT</div><h1>Quick notes<span class="title-period">.</span></h1><p class="subtitle">Simpan ide sebelum hilang. Catatan tersimpan di browser kamu.</p></div>
+        <div class="notes-layout reveal"><section class="panel glass note-editor"><div class="panel-heading"><div><span class="section-kicker">NEW THOUGHT</span><h3>Write it down</h3></div><span class="editor-symbol">✎</span></div><label for="noteTitle">Judul catatan</label><input id="noteTitle" class="field" maxlength="90" placeholder="Contoh: Ide project berikutnya"><label for="noteBody">Isi catatan</label><textarea id="noteBody" class="field textarea" rows="7" maxlength="2000" placeholder="Tulis ide, pengingat, atau hal penting di sini..."></textarea><div class="editor-bottom"><span id="noteCharCount">0 / 2000</span><button id="saveNoteButton" class="primary-button"><span>＋</span> Simpan catatan</button></div></section><section class="panel glass notes-library"><div class="panel-heading"><div><span class="section-kicker">YOUR KNOWLEDGE BASE</span><h3>Saved notes <span class="count-pill" id="notesCountPill">0</span></h3></div><div class="search-wrap note-search"><span>⌕</span><input id="noteSearch" type="search" placeholder="Cari..." aria-label="Cari catatan"></div></div><div id="notesList" class="notes-list"></div></section></div>
+        <footer class="footer"><span>© 2026 LIFEOS INTERFACE</span><span>THINK IT. CAPTURE IT. <b>✳</b></span></footer>
+      </section>
+
+      <section id="focus" class="page-section">
+        <div class="page-intro reveal"><div class="eyebrow"><span class="eyebrow-line"></span> DEEP WORK PROTOCOL</div><h1>Focus room<span class="title-period">.</span></h1><p class="subtitle">Kurangi distraksi. Beri perhatian penuh pada hal yang penting.</p></div>
+        <div class="focus-layout reveal"><section class="panel glass focus-main"><div class="focus-orbit"><div class="focus-ring"><div class="focus-ring-inner"><span class="focus-overline" id="focusModeLabel">FOCUS SESSION</span><div id="timerDisplay" class="timer-display">25:00</div><span id="timerStatus" class="timer-status"><i></i> READY WHEN YOU ARE</span></div></div><div class="focus-orbit-dot"></div></div><div class="timer-presets"><button class="preset active" data-minutes="25">Focus <strong>25m</strong></button><button class="preset" data-minutes="5">Short break <strong>5m</strong></button><button class="preset" data-minutes="15">Long break <strong>15m</strong></button></div><div class="timer-actions"><button class="primary-button timer-start" id="timerStart"><span>▶</span> Mulai fokus</button><button class="secondary-button" id="timerReset">↻ Reset</button></div><p class="focus-hint">Tip: tutup tab yang tidak diperlukan dan kerjakan satu hal saja.</p></section><aside class="focus-side"><section class="panel glass focus-quote"><span class="quote-mark">“</span><p>Focus on being productive instead of busy.</p><span class="quote-author">— TIM FERRISS</span><div class="quote-decoration">FOCUS / FLOW / FINISH</div></section><section class="panel glass focus-stats"><span class="section-kicker">TODAY'S MOMENTUM</span><h3>Your focus stats</h3><div class="focus-stat-row"><span class="focus-stat-icon">◷</span><div><strong id="focusMinutesToday">0 min</strong><small>Total waktu fokus</small></div></div><div class="focus-stat-row"><span class="focus-stat-icon">✳</span><div><strong id="focusSessionsToday">0 sesi</strong><small>Sesi selesai hari ini</small></div></div><div class="focus-stat-row"><span class="focus-stat-icon">↗</span><div><strong id="focusNextTip">Keep it steady</strong><small>Progress dimulai dari sini</small></div></div></section></aside></div>
+        <footer class="footer"><span>© 2026 LIFEOS INTERFACE</span><span>DEEP WORK, BETTER DAYS <b>✳</b></span></footer>
+      </section>
+
+      <section class="social-panel glass" aria-label="Kontak dan media sosial">
+        <div class="social-copy">
+          <span class="section-kicker">LET'S CONNECT</span>
+          <h2>Terhubung <span class="title-period">.</span></h2>
+          <p>Punya pertanyaan atau ingin mengikuti update saya? Hubungi lewat WhatsApp atau temukan saya di Instagram.</p>
+        </div>
+        <div class="social-actions">
+          <a class="social-link whatsapp-link" href="https://wa.me/6285161625560" target="_blank" rel="noopener noreferrer" aria-label="Hubungi saya melalui WhatsApp">
+            <span class="social-icon" aria-hidden="true">✆</span><span class="social-link-copy"><strong>WhatsApp</strong><small>0851-6162-5560</small></span><span class="social-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="social-link instagram-link" href="https://www.instagram.com/frdnsyhj/" target="_blank" rel="noopener noreferrer" aria-label="Ikuti saya di Instagram">
+            <span class="social-icon instagram-glyph" aria-hidden="true">◎</span><span class="social-link-copy"><strong>Instagram</strong><small>@frdnsyhj</small></span><span class="social-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+  <dialog id="taskDialog" class="task-dialog">
+    <form id="taskForm" method="dialog">
+      <div class="dialog-heading"><div><span class="section-kicker">NEW OBJECTIVE</span><h2 id="taskDialogTitle">Tambah tugas</h2></div><button type="button" class="icon-button" id="closeTaskDialog" aria-label="Tutup">×</button></div>
+      <label for="taskTitleInput">Nama tugas</label><input id="taskTitleInput" class="field" required maxlength="120" placeholder="Apa yang ingin kamu selesaikan?">
+      <label for="taskCategoryInput">Kategori</label><select id="taskCategoryInput" class="field"><option>Personal</option><option>Belajar</option><option>Project</option><option>Prioritas</option></select>
+      <label for="taskDueInput">Tanggal target</label><input id="taskDueInput" class="field" type="date">
+      <input id="taskIdInput" type="hidden">
+      <div class="dialog-actions"><button type="button" class="secondary-button" id="cancelTask">Batal</button><button type="submit" class="primary-button"><span>✓</span> Simpan tugas</button></div>
+    </form>
+  </dialog>
+</body>
+</html>
